@@ -34,7 +34,7 @@ int main(int argc,char *argv[]){
                     optdata = optarg;
                     sopt = true;
                 }else{
-                    cout<< "cオプションの値を入力してください" << endl;
+                    cout<< "sオプションの値を入力してください" << endl;
                     return -1;
                 }
                 break;
