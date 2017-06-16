@@ -5,16 +5,20 @@
 
 using namespace std;
 
-int cat(string,int);
+int cat(string,int,string);
 int search_word(string,string);
+string str_replace(string,string,string);
+
+int word_sum ;
 
 
 int main(int argc,char *argv[]){
+    word_sum =0;
 	//getopt
 	int opt;
     string filename;
 	//sオプションの引数
-    string optdata;
+    string optdata="";
 	//nオプションがあるかどうか
     bool nopt = false;
 	//sオプションがあるかどうか
@@ -42,9 +46,9 @@ int main(int argc,char *argv[]){
     for (int i= optind;i<=argc;i++){
         filename = argv[i];
         if(nopt){
-            cat(filename,1);
+            cat(filename,1,optdata);
         }else{
-            cat(filename,0);
+            cat(filename,0,optdata);
         }
         if(sopt){
             search_word(filename,optdata);
@@ -56,7 +60,7 @@ int main(int argc,char *argv[]){
     return 0;
 }
 
-int cat(string filename,int opt){
+int cat(string filename,int opt,string word){
     string str;
     ifstream ifs(filename);
     //nオプション用、行数
@@ -67,6 +71,9 @@ int cat(string filename,int opt){
     }
     if (opt ==1){
         while (getline(ifs, str)){
+            if(word != ""){
+                str = str_replace(str,word,"\x1b[43m"+word+"\x1b[m");
+            }
             if (num<10){
                 num ++;
                 cout << num << "   "<< str << endl ;
@@ -80,6 +87,9 @@ int cat(string filename,int opt){
         }
     }else{
         while (getline(ifs, str)){
+            if(word != ""){
+                str = str_replace(str,word,"\x1b[43m"+word+"\x1b[m");
+            }
              cout << str << endl ;
         }
     }
@@ -90,21 +100,33 @@ int cat(string filename,int opt){
 int search_word(string filename,string word){
     ifstream ifs(filename);
     string str;
-    int word_sum = 0;
     int row_num = 0;
     if (ifs.fail()){
         return -1;
     }
     cout << "------ serch result ------" << endl;
     cout << "file name: "<< filename <<endl;
+    cout << "search word: "<< word <<endl;
     while (getline(ifs, str)){
         row_num ++;
         if(str.find(word) != str.npos){
-            word_sum++;
+         
             cout << "lines " << row_num << endl;
         }
     }
     cout << word << "'s count = " << word_sum <<endl;
     cout << "--------------------------" << endl;
     return 0;
+}
+
+string str_replace(string query, string search, string rep ){
+    string::size_type  pos( query.find( search ) );
+
+    while( pos != string::npos ){
+       query.replace( pos, search.length(), rep);
+        pos = query.find( search, pos + rep.length() );
+        word_sum +=1;
+    }
+
+    return query;
 }
