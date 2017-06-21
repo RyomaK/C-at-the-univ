@@ -53,6 +53,7 @@ int main(int argc,char *argv[]){
         }
         if(sopt){
             search_word(filename,optdata);
+            word_sum = 0;
         }
         cout << "" << endl;
     }
