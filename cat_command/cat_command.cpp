@@ -14,36 +14,36 @@ int word_sum ;
 
 int main(int argc,char *argv[]){
     word_sum =0;
-    //getopt
-    int opt;
+	//getopt
+	int opt;
     string filename;
-    //sオプションの引数
+	//sオプションの引数
     string optdata="";
-    //nオプションがあるかどうか
+	//nオプションがあるかどうか
     bool nopt = false;
-    //sオプションがあるかどうか
+	//sオプションがあるかどうか
     bool sopt = false;
     
-    while((opt = getopt(argc, argv, "ns:")) != -1){
+    while((opt = getopt(argc, argv, "nf:")) != -1){
         switch(opt){
             case 'n':
                 nopt =true;
                 break;
-            case 's':
+            case 'f':
                 if(optarg != 0){
                     optdata = optarg;
                     sopt = true;
                 }else{
-                    cout<< "cオプションの値を入力してください" << endl;
+                    cout<< "fオプションの値を入力してください" << endl;
                     return -1;
                 }
                 break;
         }
     }
     
-    
+  
     while(optind<argc){
-        filename = argv[optind++];
+         filename = argv[optind++];
         //1 ...n option
         //0... none
         if(nopt){
@@ -91,7 +91,7 @@ int cat(string filename,int opt,string word){
             if(word != ""){
                 str = str_replace(str,word,"\x1b[43m"+word+"\x1b[m");
             }
-            cout << str << endl ;
+             cout << str << endl ;
         }
     }
     return 0;
@@ -111,7 +111,7 @@ int search_word(string filename,string word){
     while (getline(ifs, str)){
         row_num ++;
         if(str.find(word) != str.npos){
-            
+         
             cout << "lines " << row_num << endl;
         }
     }
@@ -122,12 +122,12 @@ int search_word(string filename,string word){
 
 string str_replace(string query, string search, string rep ){
     string::size_type  pos( query.find( search ) );
-    
+
     while( pos != string::npos ){
-        query.replace( pos, search.length(), rep);
+       query.replace( pos, search.length(), rep);
         pos = query.find( search, pos + rep.length() );
         word_sum +=1;
     }
-    
+
     return query;
 }
